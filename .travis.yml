@@ -1,0 +1,10 @@
+language: python
+
+install:
+  - pip install tox
+
+env:
+   - TOXENV=html
+
+script:
+  - tox
