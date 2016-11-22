@@ -1,114 +1,275 @@
-Quick Start Guide
-=================
+.. _quickstart-guide:
 
-This guide goes through the process step-by-step and provides assistance in how
-to bootstrap and configure the system.
+OSS Tooling Quick Start Guide
+=============================
 
+Mirantis Operational Support System Tooling, or OSS Tooling is a software
+platform that enables Mirantis Managed Services engineers to access remote
+cloud environments on the customer site and monitor and troubleshoot
+these environments as required.
 
-Build Installation ISO
+This document provides step-by-step instructions on how to configure
+the required environment for Mirantis Managed Services Tooling.
+
+.. _qs-prerequisites:
+
+Prerequisites
+~~~~~~~~~~~~~
+
+You can install MIrantis OSS Tooling from an ISO image provided
+by the automated build system. Alternatively, you can build your own ISO
+image. A pre-built image already includes a set of required packages. If you
+decide to build your own ISO, the latest versions of required packages are
+automatically installed in the ISO image. 
+
+.. note::
+   The automated build ISOs are not yet supported. Therefore, you must build
+   the ISO manually.
+
+The following table describes the prerequisites for the manually built ISO.
+
+.. list-table:: **Prerequisites for the manually built ISO**
+   :widths: 10 25
+   :header-rows: 1
+
+   * - Parameter
+     - Description
+   * - Building environment
+     - Ubuntu 16.04 x64 with the following software packages:
+
+       * Packer 0.11.0
+       * QEMU-KVM 2.5
+       * GnuPG 1.4
+
+   * - Base operating system for the ISO image
+     - CentOS 7 or Ubuntu 16.04 x64.
+
+       Although, you can use Ubuntu as a base operating system for
+       the Mirantis Managed Services Tooling bootstrap image, CentOS is
+       preferred.
+
+       The current supported image is Centos 7 Minimal ISO.
+
+.. seealso::
+
+   * :ref:`qs-required-packages`
+   * `CentOS Minimal ISO mirrors <http://isoredirect.centos.org/centos/7/isos/x86_64/>`_
+
+.. _qs-required-packages:
+
+ISO image packages
+------------------
+
+When you build an OSS ISO image, a specific set of packages is automatically
+installed on the base operating system of the ISO iamge. The latest packages
+are used automatically.
+
+Do not confuse these set of packages with the packages required for the
+building environment described in :ref:`qs-prepare-env`.
+
+The OSS Tooling ISO image includes the following packages:
+
+.. list-table:: **Required packages**
+   :widths: 10 25
+   :header-rows: 1
+
+   * - Package
+     - Description
+   * - ``vim-enhanced``
+     - A text editor.
+   * - ``tcpdump``
+     - A tool that prints out information about network packages on a
+       specified network interface.
+   * - ``ansible``
+     - An IT automation engine
+   * - ``docker-latest``
+     - A lightweight container building tool
+   * - ``git``
+     - Version control system
+   * - ``nginx``
+     - [Pronounced as 'engine-x'] An HHTP and reverse proxy server
+   * - ``mlocate``
+     - A client-sider URL transfers tool
+   * - ``mc``
+     - A visual file manager called Midnight Commander.
+   * - GlusterFS packages:
+
+       * ``glusterfs``
+       * ``glusterfs-api``
+       * ``glusterfs-cli``
+       * ``glusterfs-client-xlators``
+       * ``glusterfs-fuse``
+       * ``glusterfs-libs``
+       * ``glusterfs-server``
+
+     - GlusterFS packages that provide a scalable network file system that
+       enables creation of distributed storage volumes.
+   * - ``keepalived``
+     - A routing software that provides load balancing and high-avilability.
+   * - Python packages:
+
+       ``python-pip``
+       ``python-docker-py``
+       ``python-gluster``
+       ``python-httplib2``
+       ``python-IPy``
+
+     - A set of Python packages that are required for the correct programm
+       execution.
+   * - ``bash-completion``
+     - A tool that enables partial command completion by typing a few first
+       letters of the command and then pressing the **TAB** key.
+   * - ``socat``
+     - A relay for bidirectional data transfer
+   * - ``libselinux-python``
+     - A set of Python bindings for SELinux required by Ansible.
+   * - ``wget``
+     - A tool for downloading files from the Internet.
+   * - ``device-mapper-libs``
+     - An utility tjat enables mapping of physical block devices to virtual.
+   * - ``policycoreutils-python``
+     - The package includes management utilities for SELinux environments. 
+   * - ``setools-libs``
+     - A set of tools for SELinux policy analysis.
+
+.. _qs-prepare-env:
+
+Prepare the building environment
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Before you can build the OSS Tooling ISO, you need to prepare
+your building environment by installing the required packages.
+
+**To prepare the building environment:**
+
+#. Install GnuPG and QEMU-KVM:
+
+   ::
+
+     sudo apt-get install gnupg qemu-kvm
+
+#. Install packer by downloading the pre-built binary file from the offical
+   web-site:
+
+   #. Download the ``.zip`` archive:
+
+      ::
+
+        curl -O https://releases.hashicorp.com/packer/0.11.0/packer_0.11.0_linux_amd64.zip
+
+   #. Unpack the archive into your home directory using ``unzip``:
+
+      ::
+
+        unzip packer_0.11.0_linux_amd64.zip packer -d ~/
+
+#. If you use Ubuntu as a building environment, proceed to
+   :ref:`qs-generate-gpg-key`.
+
+.. _qs-generate-gpg-key:
+
+Generete a new GPG key
 ----------------------
 
-Infrastructure nodes have to be installed with the required set of packages,
-such as Ansible, Docker and GlusterFS on Centos7 based OS. To build an ISO for
-offline installation *os-image-builder* have to used.
+.. warning::
+   If you use CentOS as a base OS for your bootstrap image, skip this section.
 
+Before running the building an ISO, generate a new GPG key pair using
+GnuPG. This GPG key will be used to sign the repository inside the ISO image.
 
-Recommended Environment
-^^^^^^^^^^^^^^^^^^^^^^^
+**To generate a new public GPG:**
 
-The image builder was tested on Ubuntu 16.04 x64 with the following installed
-packages:
+#. Generate a new key pair using the ``gpg`` command:
 
-========  =======  ===========
-Name      Version  Description
-========  =======  ===========
-Packer    0.11.0   Image building tool (https://www.packer.io/docs/installation.html)
-QEMU-KVM  2.5      Machine emulator and virtualizer
-GnuPG     1.4
-========  =======  ===========
+   ::
 
+     gpg --gen-key
 
-Prepare Environment
-+++++++++++++++++++
+#. Specify your name, email address, and other parameters as prompted.
+#. Verify that the new key has been successfully generated:
 
-To install the necessary packages run the next command::
+   * Check that the ``$HOME/.gnupg`` directory includes the ``pubring.gpg``
+     and ``secring.gpg`` files.
 
-    sudo apt-get install gnupg qemu-kvm
+   * If you have generated a public key, view the list of public keys by
+     running:
 
-Packer can be installed by getting pre-built binary from the officially site,
-to download a ZIP archive run the following command::
+     ::
 
-    curl -O https://releases.hashicorp.com/packer/0.11.0/packer_0.11.0_linux_amd64.zip
+       gpg -k
 
-And then unpack it into your home directory using `unzip`::
+   * If you have generated a private key, view the list of private keys by
+     running:
 
-    unzip packer_0.11.0_linux_amd64.zip packer -d ~/
+     ::
 
+       gpg -K
 
-Generate GPG Keyring (Optional)
-+++++++++++++++++++++++++++++++
+.. _qs-build-bootstrap-image:
 
-.. WARNING::
-    This is supported only for Ubuntu based ISO and have to be skipped this
-    section in case of building Centos based ISO.
+Build a bootstrap image
+~~~~~~~~~~~~~~~~~~~~~~~
 
-Before running the image builder for the first time please generate a new key
-pair::
+After preparing your environment as described in
+:ref:`qs-prepare-env`, you can build
+the Managed Services Tooling bootstrap image.
 
-    $ gpg --gen-key
+**To build a bootstrap image:**
 
-Follow the prompts to specify your name, email, and other items.
+#. Download the recommend base OS image. Supported versions are
+   listed in :ref:`qs-prerequisites`.
+#. Copy the downloaded base OS image to a directory in your build
+   environment.
+#. Clone the image builder source code from the GitHub repository:
 
-Make sure you can find `pubring.gpg` and `secring.gpg` files under
-the $HOME/.gnupg directory. Also, you should be able to see your newly
-generated keys by issuing `gpg -k` and `gpg -K` commands to list keys from
-the public and secret keyrings accordingly.
+   ::
 
-.. NOTE::
-    This keypair will be used to sign repository inside of ISO.
+     git clone https://github.com/seecloud/os-image-builder
 
+#. Open the ``~/parameters.yaml`` for editing.
+#. Set the following parameters.
 
-Build ISO
-^^^^^^^^^
+   .. list-table:: **Prerequisites for the manually built ISO**
+      :widths: 10 25
+      :header-rows: 1
 
-The build process was tested only with Centos 7 Minimal ISO
-(`CentOS-7-x86_64-Minimal-1511.iso`). This ISO can be downloaded using the list
-of mirrors http://isoredirect.centos.org/centos/7/isos/x86_64/.
+      * - Parameter
+        - Description
+      * - ``iso``
+        - An absolute path to the CentOS installation CD image.
+      * - ``iso_md5``
+        - A MD5SUM of the ISO image that is used to verify the
+          integrity of the ISO image before starting the build.
+      * - ``dst_iso``
+        - An absolute path to the created ISO image.
+      * - ``user``
+        - A username for an account which that the image building tool
+          configures for the created ISO image.
+      * - ``password``
+        - A password for the user mentioned above.
 
-The image builder have to be cloned to build an installation ISO::
+   **Example:**
 
-    git clone https://github.com/seecloud/os-image-builder
+   :: 
 
+     cat > ~/parameters.yaml << EOF
+     {
+         "iso": "/home/ubuntu/CentOS-7-x86_64-Minimal-1511.iso",
+         "iso_md5": "88c0437f0a14c6e2c94426df9d43cd67",
+         "dst_iso": "/home/ubuntu/build/ms-centos-7.iso",
+         "user": "mirantis",
+         "password": "mirantis"
+     }
+     EOF
 
-Local parameters have to be set before to proceed::
+#. Build an ISO using the specified parameters in ``parameters.json``:
 
-    cat > ~/parameters.yaml << EOF
-    {
-        "iso": "/home/ubuntu/CentOS-7-x86_64-Minimal-1511.iso",
-        "iso_md5": "88c0437f0a14c6e2c94426df9d43cd67",
-        "dst_iso": "/home/ubuntu/build/ms-centos-7.iso",
-        "user": "mirantis",
-        "password": "mirantis"
-    }
-    EOF
+   ::
 
-Where parameters are:
+     ~/packer build -var-file ~/parameters.json -only qemu centos7.json
 
-========  ===========
-Name      Description
-========  ===========
-iso       An absolute path to the CentOS installation CD image.
-iso_md5   A MD5SUM of ISO which is used for verification before the build.
-dst_iso   An absolute path to the resulting image.
-user      An username for an account which will be configured in kickstart of
-          the resulting ISO and will be created during installation of OS.
-password  A password for the mentioned account.
-========  ===========
+   If you used the parameters from the example above, the created ISO image
+   will be placed in ``~/build/ms-centos-7.iso``
 
-To build an ISO using specified parameters in `parameters.json` run the next
-command::
+#. Deploy an OSS Tooling appliance using the created ISO image.
 
-    ~/packer build -var-file ~/parameters.json -only qemu centos7.json
-
-As a result the newly built ISO will be available at `~/build/ms-centos-7.iso`
-and can be used to deploy Managed Services appliance.
