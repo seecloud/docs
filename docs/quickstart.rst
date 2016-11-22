@@ -3,32 +3,34 @@
 OSS Tooling Quick Start Guide
 =============================
 
-Mirantis Operational Support System Tooling, or OSS Tooling is a software
+Mirantis Operational Support System Tooling, or OSS Tooling, is a software
 platform that enables Mirantis Managed Services engineers to access remote
-cloud environments on the customer site and monitor and troubleshoot
+cloud environments at customer site and monitor and troubleshoot
 these environments as required.
 
 This document provides step-by-step instructions on how to configure
-the required environment for Mirantis Managed Services Tooling.
+build the ISO image that you will later use to deploy the Mirantis OSS Tooling
+appliance.
 
 .. _qs-prerequisites:
 
 Prerequisites
 ~~~~~~~~~~~~~
 
-You can install MIrantis OSS Tooling from an ISO image provided
+You can install Mirantis OSS Tooling from an ISO image provided
 by the automated build system. Alternatively, you can build your own ISO
 image. A pre-built image already includes a set of required packages. If you
 decide to build your own ISO, the latest versions of required packages are
-automatically installed in the ISO image. 
+automatically installed in the ISO image.
 
 .. note::
    The automated build ISOs are not yet supported. Therefore, you must build
    the ISO manually.
 
-The following table describes the prerequisites for the manually built ISO.
+The following table describes the prerequisites for the manually-built ISO
+image.
 
-.. list-table:: **Prerequisites for the manually built ISO**
+.. list-table:: **Prerequisites for the manually built ISO image**
    :widths: 10 25
    :header-rows: 1
 
@@ -41,6 +43,8 @@ The following table describes the prerequisites for the manually built ISO.
        * QEMU-KVM 2.5
        * GnuPG 1.4
 
+       The building environment must have an Internet access.
+
    * - Base operating system for the ISO image
      - CentOS 7 or Ubuntu 16.04 x64.
 
@@ -48,7 +52,7 @@ The following table describes the prerequisites for the manually built ISO.
        the Mirantis Managed Services Tooling bootstrap image, CentOS is
        preferred.
 
-       The current supported image is Centos 7 Minimal ISO.
+       The current supported image is *Centos 7 Minimal ISO*.
 
 .. seealso::
 
@@ -61,10 +65,10 @@ ISO image packages
 ------------------
 
 When you build an OSS ISO image, a specific set of packages is automatically
-installed on the base operating system of the ISO iamge. The latest packages
+installed on the base operating system of the ISO image. The latest packages
 are used automatically.
 
-Do not confuse these set of packages with the packages required for the
+This set of packages is different from the packages required for the
 building environment described in :ref:`qs-prepare-env`.
 
 The OSS Tooling ISO image includes the following packages:
@@ -76,7 +80,7 @@ The OSS Tooling ISO image includes the following packages:
    * - Package
      - Description
    * - ``vim-enhanced``
-     - A text editor.
+     - A text editor
    * - ``tcpdump``
      - A tool that prints out information about network packages on a
        specified network interface.
@@ -87,9 +91,9 @@ The OSS Tooling ISO image includes the following packages:
    * - ``git``
      - Version control system
    * - ``nginx``
-     - [Pronounced as 'engine-x'] An HHTP and reverse proxy server
+     - [Pronounced as **'engine-x'**] An HHTP and reverse proxy server
    * - ``mlocate``
-     - A client-sider URL transfers tool
+     - A file search tool
    * - ``mc``
      - A visual file manager called Midnight Commander.
    * - GlusterFS packages:
@@ -105,7 +109,7 @@ The OSS Tooling ISO image includes the following packages:
      - GlusterFS packages that provide a scalable network file system that
        enables creation of distributed storage volumes.
    * - ``keepalived``
-     - A routing software that provides load balancing and high-avilability.
+     - A routing software that provides load balancing and high avilability.
    * - Python packages:
 
        ``python-pip``
@@ -114,7 +118,7 @@ The OSS Tooling ISO image includes the following packages:
        ``python-httplib2``
        ``python-IPy``
 
-     - A set of Python packages that are required for the correct programm
+     - A set of Python packages that is required for the correct program
        execution.
    * - ``bash-completion``
      - A tool that enables partial command completion by typing a few first
@@ -174,7 +178,7 @@ Generete a new GPG key
 .. warning::
    If you use CentOS as a base OS for your bootstrap image, skip this section.
 
-Before running the building an ISO, generate a new GPG key pair using
+Before building an ISO, generate a new GPG key pair using
 GnuPG. This GPG key will be used to sign the repository inside the ISO image.
 
 **To generate a new public GPG:**
@@ -207,14 +211,14 @@ GnuPG. This GPG key will be used to sign the repository inside the ISO image.
 
 .. _qs-build-bootstrap-image:
 
-Build a bootstrap image
-~~~~~~~~~~~~~~~~~~~~~~~
+Build an OSS Tolling ISO image
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 After preparing your environment as described in
 :ref:`qs-prepare-env`, you can build
-the Managed Services Tooling bootstrap image.
+an OSS Tooling ISO image.
 
-**To build a bootstrap image:**
+**To build an OSS Tooling ISO image:**
 
 #. Download the recommend base OS image. Supported versions are
    listed in :ref:`qs-prerequisites`.
@@ -229,7 +233,7 @@ the Managed Services Tooling bootstrap image.
 #. Open the ``~/parameters.yaml`` for editing.
 #. Set the following parameters.
 
-   .. list-table:: **Prerequisites for the manually built ISO**
+   .. list-table:: **Prerequisites for the manually-built ISO image**
       :widths: 10 25
       :header-rows: 1
 
@@ -262,7 +266,7 @@ the Managed Services Tooling bootstrap image.
      }
      EOF
 
-#. Build an ISO using the specified parameters in ``parameters.json``:
+#. Build an ISO image using the specified parameters in ``parameters.json``:
 
    ::
 
