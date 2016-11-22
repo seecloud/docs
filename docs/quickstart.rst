@@ -19,6 +19,7 @@ This document includes the following sections:
 * :ref:`qs-prepare-env`
 * :ref:`qs-generate-gpg-key`
 * :ref:`qs-build-bootstrap-image`
+* :ref:`qs-automated-deployment`
 
 .. _qs-prerequisites:
 
@@ -283,5 +284,55 @@ an OSS Tooling ISO image.
    If you used the parameters from the example above, the created ISO image
    will be placed in ``~/build/ms-centos-7.iso``
 
-#. Deploy an OSS Tooling appliance using the created ISO image.
+.. _qs-automated-deployment:
 
+Automated deployment of OSS Infrastructure
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The deployment of OSS Tools requires at least four hardware or virtual nodes
+which are connected in the same network. The first node is needed to bootstrap
+images and then run deployment of OSS Tools on the other nodes. These nodes
+have to be installed from the pre-built OSS Tooling ISO.
+
+.. note::
+    During the installation from ISO the `mirantis` user will be created with
+    the default password `mirantis`.
+
+After installation of nodes `automation` have to be copied on the deployment
+node:
+
+    ::
+
+      git clone https://github.com/seecloud/automation
+
+Then, change the current directory to `automation` and perform the bootstrap
+process which downloads all necessary images for further installation:
+
+    ::
+
+      ansible-playbook -i inventory/bootstrap.cfg bootstrap-runner.yml
+
+.. note::
+    The Internet connection is only needed to bootstrap images, the automated
+    deployment is an offline process.
+
+Roles have to be properly assigned on nodes before to run the deployment,
+the pre-installed nodes should be listed in the following command:
+
+    ::
+
+      utils/inventory-generator --nodes \
+        node1[ansible_ssh_host=10.20.0.1] \
+        node2[ansible_ssh_host=10.20.0.2] \
+        node3[ansible_ssh_host=10.20.0.3] \
+
+The command above generates an inventory file which is located at
+`inventory/inventory.cfg`. The inventory file is used to perform the automation
+deployment:
+
+    ::
+
+      ansible-playbook -i inventory/inventory.cfg automation-runner.yml
+
+After all above steps three nodes run the fully functional OSS Infrastructure
+which is ready to run OSS Tools Services.
