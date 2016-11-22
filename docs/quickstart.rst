@@ -1,4 +1,4 @@
-.. _quickstart-guide:
+.. _oss-quickstart-guide:
 
 OSS Tooling Quick Start Guide
 =============================
@@ -11,6 +11,14 @@ these environments as required.
 This document provides step-by-step instructions on how to configure
 build the ISO image that you will later use to deploy the Mirantis OSS Tooling
 appliance.
+
+This document includes the following sections:
+
+* :ref:`qs-prerequisites`
+* :ref:`qs-required-packages`
+* :ref:`qs-prepare-env`
+* :ref:`qs-generate-gpg-key`
+* :ref:`qs-build-bootstrap-image`
 
 .. _qs-prerequisites:
 
