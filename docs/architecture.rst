@@ -6,6 +6,7 @@ OSS Architecture Overview
 This document includes the following sections:
 
 * :ref:`arch-layers`
+* :ref:`arch-infra-components`
 
 .. _arch-layers:
 
@@ -42,3 +43,36 @@ Architecture Layers
 The described layers above are figured on the next picture:
 
     .. image:: ../images/ms-oss-tooling-arch.png
+
+.. _arch-infra-components:
+
+Infrastructure Components
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#. Ansible
+
+    Ansible in conjuction with the automation deployment playbooks is used for
+    initial deploymen of OSS Tools and comes as a part of OSS ISO.
+
+#. Docker
+
+    Docker is going to be used for all services used by all OSS Tools. Each
+    service has own pre-built image which is stored into private
+    docker-registry. Docker is shipped with OSS ISO and automatically
+    configured during the deployment.
+
+#. Docker Registry
+
+    Docker Registry is used for all images of all services, configured in
+    HA-mode across the deployment nodes.
+
+#. Kubernetes
+
+    Kubernetes is responsible for automating deployment, scaling and lice cycle
+    management operations of OSS services across cluster of pre-deployed hosts.
+
+#. ElasticSearch
+
+    ElasticSearch is used for storing searchable metrics and probes which are
+    used by OSS Tools services, configured in the clustered mode during
+    the deployment.
