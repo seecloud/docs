@@ -9,6 +9,7 @@ Contents:
    :maxdepth: 2
 
    docs/quickstart
+   docs/architecture
    license
 
 
