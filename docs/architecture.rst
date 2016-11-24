@@ -7,6 +7,7 @@ This document includes the following sections:
 
 * :ref:`arch-layers`
 * :ref:`arch-infra-components`
+* :ref:`arch-lcm`
 
 .. _arch-layers:
 
@@ -68,7 +69,7 @@ Infrastructure Components
 
 #. Kubernetes
 
-    Kubernetes is responsible for automating deployment, scaling and lice cycle
+    Kubernetes is responsible for automating deployment, scaling and life cycle
     management operations of OSS services across cluster of pre-deployed hosts.
 
 #. ElasticSearch
@@ -76,3 +77,34 @@ Infrastructure Components
     ElasticSearch is used for storing searchable metrics and probes which are
     used by OSS Tools services, configured in the clustered mode during
     the deployment.
+
+.. _arch-lcm:
+
+Life Cycle Management
+~~~~~~~~~~~~~~~~~~~~~
+
+* Bootstrap (once)
+
+  * Setup Site-to-Site (if possilbe)
+  * Run OSS Tooling ISO on 3+ VMs or Baremetal servers
+  * Copy latest releases of OSS Tooling docker images
+  * Fix inventory of ansible and run it
+
+* Host level upgrades (every 3 months)
+
+  #. Copy ansible inventory file
+  #. Backup Data Store level
+  #. Nuke 1 server
+  #. Install on available hardware new ISO
+  #. Re-run ansible with old inventory file to restore system
+  #. Wait for 30 minutes to make sure new version works (check logs, monitors)
+  #. Go to 3 until old host exists
+
+
+* Tooling upgrades (every week)
+
+  * Copy new containers images
+  * Re-run containers (rolling upgrade) with new versions
+  * Containers should take care of data migration
+  * Containers should take care of support of working old/new versions
+
