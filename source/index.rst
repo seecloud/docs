@@ -1,22 +1,16 @@
 DevOps Portal for OpenStack
 ===========================
 
-Welcome to DevOps Portal's documentation. This documentation covers DevOps Portal and tools for managing cloud infrastructure.
+Welcome to the Mirantis DevOps Portal documentation.
+This documentation describes the Mirantis DevOps Portal and
+the tools required for managing cloud infrastructure.
 
-Contents:
+Contents
+========
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    docs/quickstart
    docs/architecture
    license
-
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`search`
-

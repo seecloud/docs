@@ -1,0 +1,22 @@
+<nav class="navbar bg-light docs-navbar">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col_miramenu_int">
+                <div class="mm_miralogo" style="float: left; margin-right: 20px;">
+                    <a href="https://www.mirantis.com/" title="Home" alt="Mirantis | The #1 Pure Play OpenStack Company"
+                       rel="home">
+                        {%- if logo %}<img src="{{ pathto('_static/' + logo, 1) }}" class="img-responsive">{%- endif %}
+                    </a>
+                </div>
+                <div class="top-menu-social">
+                    <form role="form" class="form-inline" action="{{ search_url }}" method="get">
+                        <div class="form-group">
+                            <input type="text" name="search" class="form-control" id="search" placeholder="Search documentation">
+                            <button type="submit" class="btn btn-search">Go</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>

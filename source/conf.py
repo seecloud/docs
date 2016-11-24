@@ -30,6 +30,11 @@
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
+
+import os
+import sys
+import subprocess
+
 extensions = [
     'sphinx.ext.doctest',
     'sphinx.ext.intersphinx',
@@ -70,7 +75,7 @@ release = '0.0.1'
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = 'en'
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:
@@ -123,7 +128,7 @@ todo_include_todos = False
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+html_theme = 'openstackdocs'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -132,7 +137,7 @@ html_theme = 'alabaster'
 # html_theme_options = {}
 
 # Add any paths that contain custom themes here, relative to this directory.
-# html_theme_path = []
+html_theme_path = ['_templates']
 
 # The name for this set of Sphinx documents.
 # "<project> v<release> documentation" by default.
@@ -179,17 +184,7 @@ html_static_path = ['_static']
 # Custom sidebar templates, maps document names to template names.
 #
 html_sidebars = {
-    'index': [
-        'logo.html',
-        'globaltoc.html',
-        'sourcelink.html',
-        'searchbox.html',
-    ],
-    '**': [
-        'logo.html',
-        'sourcelink.html',
-        'searchbox.html',
-    ],
+   '**': ['localtoc.html', 'relations.html', 'sourcelink.html', 'sidebarpdf.html', 'searchbox.html'],
 }
 
 # Additional templates that should be rendered to pages, maps page names to
@@ -199,11 +194,11 @@ html_sidebars = {
 
 # If false, no module index is generated.
 #
-# html_domain_indices = True
+html_domain_indices = False
 
 # If false, no index is generated.
 #
-# html_use_index = True
+html_use_index = False
 
 # If true, the index is split into individual pages for each letter.
 #
@@ -356,3 +351,6 @@ texinfo_documents = [
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {'https://docs.python.org/': None}
+
+html_last_updated_fmt = '%Y-%m-%d %H:%M'
+

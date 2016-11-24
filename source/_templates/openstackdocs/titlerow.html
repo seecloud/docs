@@ -1,0 +1,22 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="docs-byline-top">
+            <ol class="breadcrumb">
+                <li><a href="{{ home_url }}"> HOME </a></li>
+                {% for doc in parents %}
+                  {% if "no title" not in doc.title %}
+                    <li><a href="{{ doc.link|e }}">{{ doc.title }}</a></li>
+                  {% endif %}
+                {% endfor %}
+                {% if shorttitle|upper|trim != title|upper|trim %}
+                    <li>{{ title }}</li>
+                {% endif %}
+            </ol>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <h2 class="page-head">{{ title }}</h2>
+    </div>
+</div>
