@@ -100,7 +100,7 @@ The OSS Tooling ISO image includes the following packages:
    * - ``git``
      - Version control system
    * - ``nginx``
-     - [Pronounced as **'engine-x'**] An HHTP and reverse proxy server
+     - [Pronounced as **'engine-x'**] An HTTP and reverse proxy server
    * - ``mlocate``
      - A file search tool
    * - ``mc``
@@ -118,7 +118,7 @@ The OSS Tooling ISO image includes the following packages:
      - GlusterFS packages that provide a scalable network file system that
        enables creation of distributed storage volumes.
    * - ``keepalived``
-     - A routing software that provides load balancing and high avilability.
+     - A routing software that provides load balancing and high availability.
    * - Python packages:
 
        ``python-pip``
@@ -161,8 +161,8 @@ your building environment by installing the required packages.
 
      sudo apt-get install gnupg qemu-kvm
 
-#. Install packer by downloading the pre-built binary file from the offical
-   web-site:
+#. Install packer by downloading the pre-built binary file from the official
+   website:
 
    #. Download the ``.zip`` archive:
 
@@ -181,7 +181,7 @@ your building environment by installing the required packages.
 
 .. _qs-generate-gpg-key:
 
-Generete a new GPG key
+Generate a new GPG key
 ----------------------
 
 .. warning::
@@ -229,7 +229,7 @@ an OSS Tooling ISO image.
 
 **To build an OSS Tooling ISO image:**
 
-#. Download the recommend base OS image. Supported versions are
+#. Download the recommended base OS image. Supported versions are
    listed in :ref:`qs-prerequisites`.
 #. Copy the downloaded base OS image to a directory in your build
    environment.

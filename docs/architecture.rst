@@ -14,11 +14,11 @@ This document includes the following sections:
 Architecture Layers
 ~~~~~~~~~~~~~~~~~~~
 
-#. Environment - OSS Tooling is going to run on top of VMs or Baremetal nodes
+#. Environment - OSS Tooling is going to run on top of VMs or bare-metal nodes
    that run MS ISO that contains everything that runs on host level
    pre-installed, this allows us to:
 
-        #. Boostrap OSS Tooling infrastructure without internet
+        #. Bootstrap OSS Tooling infrastructure without internet
         #. Have pretty simple & automated initial deployment procedure
         #. Reinstall host nodes with new ISO when they are released
                    (security updates)
@@ -52,8 +52,8 @@ Infrastructure Components
 
 #. Ansible
 
-    Ansible in conjuction with the automation deployment playbooks is used for
-    initial deploymen of OSS Tools and comes as a part of OSS ISO.
+    Ansible in conjunction with the automation deployment playbooks is used for
+    initial deployment of OSS Tools and comes as a part of OSS ISO.
 
 #. Docker
 
@@ -85,8 +85,8 @@ Life Cycle Management
 
 * Bootstrap (once)
 
-  * Setup Site-to-Site (if possilbe)
-  * Run OSS Tooling ISO on 3+ VMs or Baremetal servers
+  * Setup Site-to-Site (if possible)
+  * Run OSS Tooling ISO on 3+ VMs or bare-metal servers
   * Copy latest releases of OSS Tooling docker images
   * Fix inventory of ansible and run it
 
@@ -95,7 +95,7 @@ Life Cycle Management
   #. Copy ansible inventory file
   #. Backup Data Store level
   #. Nuke 1 server
-  #. Install on available hardware new ISO
+  #. Install new ISO on available hardware
   #. Re-run ansible with old inventory file to restore system
   #. Wait for 30 minutes to make sure new version works (check logs, monitors)
   #. Go to 3 until old host exists

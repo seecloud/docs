@@ -12,4 +12,4 @@ $ tox -e html
 ```
 
 And then just open built documentation `build/html/index.html` in your browser
-(Of source, using your favourite tool, e.g. open or xdg-open!).
+(Of course, using your favourite tool, e.g. open or xdg-open!).
