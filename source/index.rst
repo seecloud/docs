@@ -1,22 +1,23 @@
 DevOps Portal for OpenStack
 ===========================
 
-Welcome to DevOps Portal's documentation. This documentation covers DevOps Portal and tools for managing cloud infrastructure.
+Welcome to DevOps Portal's documentation. This documentation describes
+the steps required to build a Mirantis OSS Tooling framework ISO image,
+as well as how to deploy the image on physical or virtual nodes that
+will run services required for managing cloud infrastructures at
+customers site. Documentation also provides an architectural overview
+of the Mirantis OSS Tooling framework required that is recommended for
+better understanding of the project internals.
 
-Contents:
+Contents
+========
+
+-------------------------------
 
 .. toctree::
    :maxdepth: 2
 
-   docs/quickstart
    docs/architecture
+   docs/build-oss-image
+   docs/deploy-oss-tooling
    license
-
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`search`
-

@@ -1,7 +1,7 @@
-.. _oss-quickstart-guide:
+.. _build-oss-image:
 
-OSS Tooling Quick Start Guide
-=============================
+Build a Mirantis OSS Tooling ISO image
+======================================
 
 Mirantis Operational Support System Tooling, or OSS Tooling, is a software
 platform that enables Mirantis Managed Services engineers to access remote
@@ -14,14 +14,13 @@ appliance.
 
 This document includes the following sections:
 
-* :ref:`qs-prerequisites`
-* :ref:`qs-required-packages`
-* :ref:`qs-prepare-env`
-* :ref:`qs-generate-gpg-key`
-* :ref:`qs-build-bootstrap-image`
-* :ref:`qs-automated-deployment`
+* :ref:`prerequisites`
+* :ref:`required-packages`
+* :ref:`prepare-env`
+* :ref:`generate-gpg-key`
+* :ref:`build-bootstrap-image`
 
-.. _qs-prerequisites:
+.. _prerequisites:
 
 Prerequisites
 ~~~~~~~~~~~~~
@@ -65,10 +64,10 @@ image.
 
 .. seealso::
 
-   * :ref:`qs-required-packages`
+   * :ref:`required-packages`
    * `CentOS Minimal ISO mirrors <http://isoredirect.centos.org/centos/7/isos/x86_64/>`_
 
-.. _qs-required-packages:
+.. _required-packages:
 
 ISO image packages
 ------------------
@@ -78,7 +77,7 @@ installed on the base operating system of the ISO image. The latest packages
 are used automatically.
 
 This set of packages is different from the packages required for the
-building environment described in :ref:`qs-prepare-env`.
+building environment described in :ref:`prepare-env`.
 
 The OSS Tooling ISO image includes the following packages:
 
@@ -145,7 +144,7 @@ The OSS Tooling ISO image includes the following packages:
    * - ``setools-libs``
      - A set of tools for SELinux policy analysis.
 
-.. _qs-prepare-env:
+.. _prepare-env:
 
 Prepare the building environment
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -177,9 +176,9 @@ your building environment by installing the required packages.
         unzip packer_0.11.0_linux_amd64.zip packer -d ~/
 
 #. If you use Ubuntu as a building environment, proceed to
-   :ref:`qs-generate-gpg-key`.
+   :ref:`generate-gpg-key`.
 
-.. _qs-generate-gpg-key:
+.. _generate-gpg-key:
 
 Generate a new GPG key
 ----------------------
@@ -218,19 +217,19 @@ GnuPG. This GPG key will be used to sign the repository inside the ISO image.
 
        gpg -K
 
-.. _qs-build-bootstrap-image:
+.. _build-bootstrap-image:
 
-Build an OSS Tolling ISO image
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Build the ISO image
+~~~~~~~~~~~~~~~~~~~
 
 After preparing your environment as described in
-:ref:`qs-prepare-env`, you can build
+:ref:`prepare-env`, you can build
 an OSS Tooling ISO image.
 
 **To build an OSS Tooling ISO image:**
 
 #. Download the recommended base OS image. Supported versions are
-   listed in :ref:`qs-prerequisites`.
+   listed in :ref:`prerequisites`.
 #. Copy the downloaded base OS image to a directory in your build
    environment.
 #. Clone the image builder source code from the GitHub repository:
@@ -283,56 +282,3 @@ an OSS Tooling ISO image.
 
    If you used the parameters from the example above, the created ISO image
    will be placed in ``~/build/ms-centos-7.iso``
-
-.. _qs-automated-deployment:
-
-Automated deployment of OSS Infrastructure
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The deployment of OSS Tools requires at least four hardware or virtual nodes
-which are connected in the same network. The first node is needed to bootstrap
-images and then run deployment of OSS Tools on the other nodes. These nodes
-have to be installed from the pre-built OSS Tooling ISO.
-
-.. note::
-    During the installation from ISO the `mirantis` user will be created with
-    the default password `mirantis`.
-
-After installation of nodes `automation` have to be copied on the deployment
-node:
-
-    ::
-
-      git clone https://github.com/seecloud/automation
-
-Then, change the current directory to `automation` and perform the bootstrap
-process which downloads all necessary images for further installation:
-
-    ::
-
-      ansible-playbook -i inventory/bootstrap.cfg bootstrap-runner.yml
-
-.. note::
-    The Internet connection is only needed to bootstrap images, the automated
-    deployment is an offline process.
-
-Roles have to be properly assigned on nodes before to run the deployment,
-the pre-installed nodes should be listed in the following command:
-
-    ::
-
-      utils/inventory-generator --nodes \
-        node1[ansible_ssh_host=10.20.0.1] \
-        node2[ansible_ssh_host=10.20.0.2] \
-        node3[ansible_ssh_host=10.20.0.3] \
-
-The command above generates an inventory file which is located at
-`inventory/inventory.cfg`. The inventory file is used to perform the automation
-deployment:
-
-    ::
-
-      ansible-playbook -i inventory/inventory.cfg automation-runner.yml
-
-After all above steps three nodes run the fully functional OSS Infrastructure
-which is ready to run OSS Tools Services.
